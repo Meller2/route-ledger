@@ -14,7 +14,7 @@ import dev.meller.routeledger.data.local.entity.ShiftEntity
         ExpenseEntity::class,
     ],
     version = 1,
-    exportSchema = true,
+    exportSchema = false,
 )
 abstract class RouteLedgerDatabase : RoomDatabase() {
     abstract fun ledgerDao(): LedgerDao

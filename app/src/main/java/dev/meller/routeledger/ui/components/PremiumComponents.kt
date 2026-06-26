@@ -100,6 +100,26 @@ fun HeroProfitCard(
 }
 
 @Composable
+private fun MiniPulse(value: Float) {
+    Canvas(modifier = Modifier.size(58.dp)) {
+        drawArc(
+            color = Color.White.copy(alpha = 0.14f),
+            startAngle = -90f,
+            sweepAngle = 360f,
+            useCenter = false,
+            style = Stroke(width = 8f, cap = StrokeCap.Round),
+        )
+        drawArc(
+            color = LedgerGold,
+            startAngle = -90f,
+            sweepAngle = 360f * value.coerceIn(0f, 1f),
+            useCenter = false,
+            style = Stroke(width = 8f, cap = StrokeCap.Round),
+        )
+    }
+}
+
+@Composable
 fun MetricCard(label: String, value: String, hint: String, accent: Color = LedgerInk) {
     PremiumCard(modifier = Modifier.fillMaxWidth()) {
         Column(Modifier.padding(18.dp)) {
