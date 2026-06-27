@@ -21,7 +21,6 @@ import dev.meller.routeledger.ui.components.SectionTitle
 import dev.meller.routeledger.ui.components.SoftLineChart
 import dev.meller.routeledger.ui.components.rub
 import dev.meller.routeledger.ui.screenPadding
-import dev.meller.routeledger.ui.theme.LedgerMutedInk
 import java.time.format.DateTimeFormatter
 
 @Composable
@@ -59,7 +58,7 @@ fun IncomeScreen(snapshot: LedgerSnapshot) {
                         Spacer(Modifier.height(5.dp))
                         Text(
                             "${shift.startedAt.format(DateTimeFormatter.ofPattern("d MMM, HH:mm"))} · ${orders.size} заказов · чистыми ${net.rub()}",
-                            color = LedgerMutedInk,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
                     }
                 }

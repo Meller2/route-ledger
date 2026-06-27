@@ -33,7 +33,6 @@ import dev.meller.routeledger.ui.theme.LedgerGold
 import dev.meller.routeledger.ui.theme.LedgerGraphite
 import dev.meller.routeledger.ui.theme.LedgerInk
 import dev.meller.routeledger.ui.theme.LedgerLine
-import dev.meller.routeledger.ui.theme.LedgerMutedInk
 import dev.meller.routeledger.ui.theme.LedgerPaper
 import dev.meller.routeledger.ui.theme.LedgerSage
 import java.text.NumberFormat
@@ -51,7 +50,7 @@ fun PremiumCard(
     dark: Boolean = false,
     content: @Composable () -> Unit,
 ) {
-    val background = if (dark) LedgerGraphite else LedgerPaper
+    val background = if (dark) LedgerGraphite else MaterialTheme.colorScheme.surface
     Surface(
         modifier = modifier,
         shape = MaterialTheme.shapes.large,
@@ -127,9 +126,9 @@ fun MetricCard(label: String, value: String, hint: String, accent: Color = Ledge
             Spacer(Modifier.height(12.dp))
             Text(value, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold)
             Spacer(Modifier.height(3.dp))
-            Text(label, color = LedgerMutedInk, style = MaterialTheme.typography.bodyMedium)
+            Text(label, color = MaterialTheme.colorScheme.onSurfaceVariant, style = MaterialTheme.typography.bodyMedium)
             Spacer(Modifier.height(8.dp))
-            Text(hint, color = LedgerMutedInk, style = MaterialTheme.typography.labelMedium)
+            Text(hint, color = MaterialTheme.colorScheme.onSurfaceVariant, style = MaterialTheme.typography.labelMedium)
         }
     }
 }
@@ -140,7 +139,7 @@ fun InsightPill(text: String, accent: Color = LedgerSage) {
         Text(
             text = text,
             modifier = Modifier.padding(horizontal = 14.dp, vertical = 8.dp),
-            color = LedgerInk,
+            color = MaterialTheme.colorScheme.onSurface,
             style = MaterialTheme.typography.labelMedium,
         )
     }
@@ -152,7 +151,7 @@ fun SectionTitle(title: String, subtitle: String? = null) {
         Text(title, style = MaterialTheme.typography.headlineMedium)
         if (subtitle != null) {
             Spacer(Modifier.height(4.dp))
-            Text(subtitle, color = LedgerMutedInk, style = MaterialTheme.typography.bodyMedium)
+            Text(subtitle, color = MaterialTheme.colorScheme.onSurfaceVariant, style = MaterialTheme.typography.bodyMedium)
         }
     }
 }
@@ -178,7 +177,7 @@ fun SoftLineChart(values: List<Int>, modifier: Modifier = Modifier, color: Color
             )
         }
         points.forEach { point ->
-            drawCircle(color = LedgerPaper, radius = 10f, center = point)
+            drawCircle(color = Color.White.copy(alpha = 0.88f), radius = 10f, center = point)
             drawCircle(color = color, radius = 6f, center = point)
         }
     }
@@ -212,7 +211,7 @@ fun EmptyMapPreview() {
             Spacer(Modifier.height(8.dp))
             Text(
                 "В MVP районы считаются без карт. В коде уже есть интерфейс MapProvider, чтобы потом добавить Google Maps или Яндекс Карты без переписывания экранов.",
-                color = LedgerMutedInk,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 style = MaterialTheme.typography.bodyMedium,
             )
             Spacer(Modifier.height(18.dp))
