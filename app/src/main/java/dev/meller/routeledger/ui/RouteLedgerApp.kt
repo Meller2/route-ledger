@@ -29,6 +29,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,16 +40,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import dev.meller.routeledger.data.demo.DemoLedger
 import dev.meller.routeledger.ui.screens.AreasScreen
 import dev.meller.routeledger.ui.screens.DashboardScreen
 import dev.meller.routeledger.ui.screens.IncomeScreen
 import dev.meller.routeledger.ui.screens.SettingsScreen
 import dev.meller.routeledger.ui.screens.ShiftScreen
 import dev.meller.routeledger.ui.theme.LedgerGold
-import dev.meller.routeledger.ui.theme.LedgerInk
-import dev.meller.routeledger.ui.theme.LedgerIvory
-import dev.meller.routeledger.ui.theme.LedgerPaper
 
 private enum class RouteLedgerTab(val title: String, val icon: ImageVector) {
     Pulse("Пульс", Icons.Outlined.Analytics),
@@ -59,17 +56,18 @@ private enum class RouteLedgerTab(val title: String, val icon: ImageVector) {
 }
 
 @Composable
-fun RouteLedgerApp() {
+fun RouteLedgerApp(viewModel: AppViewModel) {
     var currentTab by remember { mutableStateOf(RouteLedgerTab.Pulse) }
-    val snapshot = remember { DemoLedger.snapshot() }
+    val snapshot by viewModel.snapshot.collectAsState()
+    val darkTheme by viewModel.darkTheme.collectAsState()
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        containerColor = LedgerIvory,
+        containerColor = MaterialTheme.colorScheme.background,
         bottomBar = {
             NavigationBar(
                 modifier = Modifier.navigationBarsPadding(),
-                containerColor = LedgerPaper,
+                containerColor = MaterialTheme.colorScheme.surface,
                 tonalElevation = 0.dp,
             ) {
                 RouteLedgerTab.entries.forEach { tab ->
@@ -87,16 +85,33 @@ fun RouteLedgerApp() {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .background(LedgerIvory),
+                .background(MaterialTheme.colorScheme.background),
         ) {
             AppHeader()
-            AnimatedContent(targetState = currentTab, label = "tab-content") { tab ->
-                when (tab) {
-                    RouteLedgerTab.Pulse -> DashboardScreen(snapshot)
-                    RouteLedgerTab.Shift -> ShiftScreen(snapshot)
-                    RouteLedgerTab.Income -> IncomeScreen(snapshot)
-                    RouteLedgerTab.Areas -> AreasScreen(snapshot)
-                    RouteLedgerTab.Settings -> SettingsScreen()
+            val currentSnapshot = snapshot
+            if (currentSnapshot == null) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text("Готовлю журнал...")
+                }
+            } else {
+                AnimatedContent(targetState = currentTab, label = "tab-content") { tab ->
+                    when (tab) {
+                        RouteLedgerTab.Pulse -> DashboardScreen(currentSnapshot)
+                        RouteLedgerTab.Shift -> ShiftScreen(
+                            snapshot = currentSnapshot,
+                            onStartShift = viewModel::startShift,
+                            onAddOrder = viewModel::addQuickOrder,
+                        )
+                        RouteLedgerTab.Income -> IncomeScreen(currentSnapshot)
+                        RouteLedgerTab.Areas -> AreasScreen(currentSnapshot)
+                        RouteLedgerTab.Settings -> SettingsScreen(
+                            darkTheme = darkTheme,
+                            onDarkThemeChanged = viewModel::setDarkTheme,
+                        )
+                    }
                 }
             }
         }
@@ -116,7 +131,7 @@ private fun AppHeader() {
             modifier = Modifier
                 .size(44.dp)
                 .clip(CircleShape)
-                .background(LedgerInk),
+                .background(MaterialTheme.colorScheme.primary),
             contentAlignment = Alignment.Center,
         ) {
             Text("RL", color = LedgerGold, fontWeight = FontWeight.Bold)
@@ -133,7 +148,7 @@ private fun AppHeader() {
 fun LedgerScreenSurface(content: @Composable () -> Unit) {
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = LedgerIvory,
+        color = MaterialTheme.colorScheme.background,
         content = content,
     )
 }

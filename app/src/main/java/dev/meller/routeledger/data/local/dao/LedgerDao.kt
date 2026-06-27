@@ -20,6 +20,9 @@ interface LedgerDao {
     @Query("SELECT * FROM expenses ORDER BY createdAt DESC")
     fun observeExpenses(): Flow<List<ExpenseEntity>>
 
+    @Query("SELECT COUNT(*) FROM shifts")
+    suspend fun countShifts(): Int
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsertShift(shift: ShiftEntity)
 

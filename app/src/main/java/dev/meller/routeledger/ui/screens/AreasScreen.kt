@@ -25,7 +25,6 @@ import dev.meller.routeledger.ui.components.PremiumCard
 import dev.meller.routeledger.ui.components.SectionTitle
 import dev.meller.routeledger.ui.components.rub
 import dev.meller.routeledger.ui.screenPadding
-import dev.meller.routeledger.ui.theme.LedgerMutedInk
 
 @Composable
 fun AreasScreen(snapshot: LedgerSnapshot) {
@@ -53,7 +52,7 @@ fun AreasScreen(snapshot: LedgerSnapshot) {
                         AreaQualityRing(score = 100 - area.waitRisk)
                         Column(Modifier.weight(1f)) {
                             Text(area.name, style = MaterialTheme.typography.titleMedium)
-                            Text(area.mood, color = LedgerMutedInk)
+                            Text(area.mood, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         }
                         Text("${area.averageProfitPerHour.rub()}/ч", style = MaterialTheme.typography.titleMedium)
                     }

@@ -19,10 +19,12 @@ import dev.meller.routeledger.ui.SectionSpacer
 import dev.meller.routeledger.ui.components.PremiumCard
 import dev.meller.routeledger.ui.components.SectionTitle
 import dev.meller.routeledger.ui.screenPadding
-import dev.meller.routeledger.ui.theme.LedgerMutedInk
 
 @Composable
-fun SettingsScreen() {
+fun SettingsScreen(
+    darkTheme: Boolean,
+    onDarkThemeChanged: (Boolean) -> Unit,
+) {
     LedgerScreenSurface {
         Column(
             modifier = Modifier
@@ -37,14 +39,12 @@ fun SettingsScreen() {
             Spacer(Modifier.height(10.dp))
             SettingsCard("Карты", "Провайдер пока не подключён, API key не нужен")
             Spacer(Modifier.height(10.dp))
-            SettingsCard("Тема", "Quiet Premium: молочный фон, графит, золото, sage")
-            Spacer(Modifier.height(10.dp))
             PremiumCard(Modifier.fillMaxWidth()) {
                 Column(Modifier.padding(18.dp)) {
-                    Text("Демо-данные", style = MaterialTheme.typography.titleMedium)
-                    Text("Показывать красивый стартовый дашборд", color = LedgerMutedInk)
+                    Text("Тёмная тема", style = MaterialTheme.typography.titleMedium)
+                    Text("Спокойный графитовый режим для вечера", color = MaterialTheme.colorScheme.onSurfaceVariant)
                     Spacer(Modifier.height(8.dp))
-                    Switch(checked = true, onCheckedChange = {})
+                    Switch(checked = darkTheme, onCheckedChange = onDarkThemeChanged)
                 }
             }
         }
@@ -57,7 +57,7 @@ private fun SettingsCard(title: String, subtitle: String) {
         Column(Modifier.padding(18.dp)) {
             Text(title, style = MaterialTheme.typography.titleMedium)
             Spacer(Modifier.height(4.dp))
-            Text(subtitle, color = LedgerMutedInk)
+            Text(subtitle, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
     }
 }

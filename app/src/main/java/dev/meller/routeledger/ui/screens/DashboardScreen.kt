@@ -30,7 +30,6 @@ import dev.meller.routeledger.ui.screenPadding
 import dev.meller.routeledger.ui.theme.LedgerBlue
 import dev.meller.routeledger.ui.theme.LedgerClay
 import dev.meller.routeledger.ui.theme.LedgerGold
-import dev.meller.routeledger.ui.theme.LedgerMutedInk
 import dev.meller.routeledger.ui.theme.LedgerSage
 
 @Composable
@@ -71,7 +70,7 @@ fun DashboardScreen(snapshot: LedgerSnapshot) {
                 Column(Modifier.padding(20.dp)) {
                     Text("Неделя в деньгах", style = MaterialTheme.typography.titleLarge)
                     Spacer(Modifier.height(6.dp))
-                    Text("Мягкий график без биржевого стресса.", color = LedgerMutedInk)
+                    Text("Мягкий график без биржевого стресса.", color = MaterialTheme.colorScheme.onSurfaceVariant)
                     Spacer(Modifier.height(18.dp))
                     SoftLineChart(snapshot.dailyPoints.map { it.netRub })
                     Spacer(Modifier.height(8.dp))
@@ -97,7 +96,7 @@ private fun InsightCard(title: String, body: String) {
         Column(Modifier.padding(18.dp)) {
             Text(title, style = MaterialTheme.typography.titleMedium)
             Spacer(Modifier.height(4.dp))
-            Text(body, color = LedgerMutedInk, style = MaterialTheme.typography.bodyMedium)
+            Text(body, color = MaterialTheme.colorScheme.onSurfaceVariant, style = MaterialTheme.typography.bodyMedium)
         }
     }
 }
